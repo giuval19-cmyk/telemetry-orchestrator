@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  # 1. Service Registry
+  service-registry:
+    build:
+      context: ./services/service-registry
+      dockerfile: Dockerfile
+    container_name: service-registry
+    ports:
+      - "8761:8761"
+    networks:
+      - telemetry-net
+
+  # 2. Telemetry Simulator
+  telemetry-simulator:
+    build:
+      context: ./services/telemetry-simulator
+      dockerfile: Dockerfile
+    container_name: telemetry-simulator
+    ports:
+      - "8091:8091"
+    env_file: .env
+    depends_on:
+      - service-registry
+    networks:
+      - telemetry-net
+
+  # 3. Telemetry Services
+  telemetry-services:
+    build:
+      context: ./services/telemetry-services
+      dockerfile: Dockerfile
+    container_name: telemetry-services
+    ports:
+      - "8092:8092"
+    env_file: .env
+    depends_on:
+      - service-registry
+    networks:
+      - telemetry-net
+
+  # 4. Frontend Angular
+  tickets-client:
+    build:
+      context: ./clients/tickets-client
+      dockerfile: Dockerfile
+    container_name: tickets-client
+    ports:
+      - "8000:80"
+    depends_on:
+      - telemetry-simulator
+      - telemetry-services
+    networks:
+      - telemetry-net
+
+networks:
+  telemetry-net:
+    driver: bridge
