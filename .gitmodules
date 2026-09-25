@@ -1,0 +1,12 @@
+[submodule "services/telemetry-simulator"]
+	path = services/telemetry-simulator
+	url = https://github.com/giuval19-cmyk/telemetry-simulator.git
+[submodule "services/telemetry-services"]
+	path = services/telemetry-services
+	url = https://github.com/giuval19-cmyk/telemetry-services.git
+[submodule "clients/tickets-client"]
+	path = clients/tickets-client
+	url = https://github.com/giuval19-cmyk/tickets-client.git
+[submodule "services/service-registry"]
+	path = services/service-registry
+	url = https://github.com/giuval19-cmyk/service-registry.git
