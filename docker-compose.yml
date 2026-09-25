@@ -1,10 +1,8 @@
-version: '3.8'
-
 services:
   # 1. Service Registry
   service-registry:
     build:
-      context: ./services/service-registry
+      context: ./services/service-registry/service-registry
       dockerfile: Dockerfile
     container_name: service-registry
     ports:
@@ -15,7 +13,7 @@ services:
   # 2. Telemetry Simulator
   telemetry-simulator:
     build:
-      context: ./services/telemetry-simulator
+      context: ./services/telemetry-simulator/telemetry-simulator
       dockerfile: Dockerfile
     container_name: telemetry-simulator
     ports:
@@ -29,7 +27,7 @@ services:
   # 3. Telemetry Services
   telemetry-services:
     build:
-      context: ./services/telemetry-services
+      context: ./services/telemetry-services/telemetry-services
       dockerfile: Dockerfile
     container_name: telemetry-services
     ports:
@@ -43,9 +41,9 @@ services:
   # 4. Frontend Angular
   tickets-client:
     build:
-      context: ./clients/tickets-client
+      context: ./clients/telemetry-client
       dockerfile: Dockerfile
-    container_name: tickets-client
+    container_name: telemetry-client
     ports:
       - "8000:80"
     depends_on:
