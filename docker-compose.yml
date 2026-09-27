@@ -1,57 +1,25 @@
 services:
-  # 1. Service Registry
-  service-registry:
-    build:
-      context: ./services/service-registry/service-registry
-      dockerfile: Dockerfile
-    container_name: service-registry
-    ports:
-      - "8761:8761"
-    networks:
-      - telemetry-net
-
-  # 2. Telemetry Simulator
   telemetry-simulator:
     build:
       context: ./services/telemetry-simulator/telemetry-simulator
       dockerfile: Dockerfile
     container_name: telemetry-simulator
-    ports:
-      - "8091:8091"
+    network_mode: host
     env_file: .env
-    depends_on:
-      - service-registry
-    networks:
-      - telemetry-net
-
-  # 3. Telemetry Services
   telemetry-services:
     build:
       context: ./services/telemetry-services/telemetry-services
       dockerfile: Dockerfile
     container_name: telemetry-services
-    ports:
-      - "8092:8092"
+    network_mode: host
     env_file: .env
-    depends_on:
-      - service-registry
-    networks:
-      - telemetry-net
-
-  # 4. Frontend Angular
-  tickets-client:
+  telemetry-client:
     build:
       context: ./clients/telemetry-client
       dockerfile: Dockerfile
     container_name: telemetry-client
-    ports:
-      - "8000:80"
+    network_mode: host
     depends_on:
-      - telemetry-simulator
       - telemetry-services
-    networks:
-      - telemetry-net
-
-networks:
-  telemetry-net:
-    driver: bridge
+      - telemetry-simulator
+    restart: always
